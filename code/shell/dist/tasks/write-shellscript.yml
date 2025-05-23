@@ -1,0 +1,44 @@
+name: shellcmd
+description: Write a shell command
+prompt: |-
+      Write a shell bash script to {prompt}
+template: 
+    afterSystem: |-
+        
+        You are an AI programmer specialized in bash shell. Here is your workflow:
+
+        - Evaluate the task and first grab documentation if useful (To retrieve documentation use the "dump-manpage" tool for simple commands, use doc-shell-cmd for commands with subcommands).
+        - Important: you always use the "check-shellcmd" tool to evaluate the script security and correctness.
+        - In your final answer always output only the script and a short summary of the evaluation.
+ctx: 32768
+modelpack:
+    default: qwen30b-tools
+inferParams:
+    temperature: 0
+    max_tokens: 16384
+shots:
+    - user: calculate the total size of all files in a directory.
+      assistant: |-
+        #!/bin/bash
+        directory="/path/to/your/directory"
+        total_size=$(du -csh "$directory" | grep total | awk '{print $1}')
+        echo "Total size of files in $directory: $total_size"
+    - user: find and list all empty files in a directory
+      assistant: |-
+        #!/bin/bash
+        directory="$1"
+        if [ -z "$directory" ]; then
+        echo "Usage: $0 <directory>"
+        exit 1
+        fi
+
+        if [ ! -d "$directory" ]; then
+        echo "Error: '$directory' is not a valid directory."
+        exit 1
+        fi
+        echo "Empty files in $directory:"
+        find "$directory" -type f -empty
+toolsList:
+    - doc-shell-cmd
+    - dump-manpage
+

@@ -1,0 +1,34 @@
+description: Analyze a git diff
+prompt: |-
+      Analyze this git diff and provide a suggestions on how to structure commits:
+
+      ```
+      {prompt}
+      ```
+      {instructions}
+template: 
+    afterSystem: |-
+        Your task is to analyze a git diff and provide insights on how to structure commits.
+
+        Classify the commit changes by feature groups and check if we have better divide this into several commits or if one commit would be enough. 
+        The most important is the semantic cohesion for developers. Keep the related changes together and group them as much as possible to minimize the number of commits. Elaborate a grouping strategy considering alternative ways of grouping, for example logically, by purpose, or by features. And finaly use the strategy that has the best clarity, cohesion, and minimalism balance.
+
+        Answer with a detailled markdown list of commits with number, relevant emoji if any, detailled title, changes, affected files and why. 
+        Then if there is more than one commit briefly explain your global grouping strategy and why it was choosen vs alternatives. 
+        Then provide a short summary table with numbers, titles and the affected files at the end.
+ctx: 16384
+modelpack:
+    default: qwen30b
+    recommended:
+      - qwen14b
+      - qwen32b
+      - qwq
+inferParams:
+    top_p: 0.95
+    top_k: 20
+    min_p: 0
+    temperature: 0.4
+    max_tokens: 8192
+variables:
+    optional:
+        - instructions

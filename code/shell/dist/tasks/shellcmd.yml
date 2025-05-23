@@ -1,0 +1,43 @@
+description: Write a shell command using tools
+prompt: |-
+    {prompt}
+template: 
+    afterSystem: |-
+        
+        You are an AI programmer specialized in bash shell commands. Here is your workflow:
+
+        - Evaluate the task and first grab documentation if useful (To retrieve documentation use the "dump-manpage" tool for simple commands, use doc-shell-cmd for commands with subcommands).
+        - Important: you always use the "check-shellcmd" tool to evaluate the command security and correctness.
+        - In your final answer always output only the command and the evaluation.
+
+        Always use the "check-shellcmd" tool to get an evaluation before answering. Then answer with this format:
+
+        ```
+        <command>command here</command>
+
+        - Correctness: number
+        - Security: number
+
+        Security warning and recommandations if any
+        Alternative secured command if any
+
+        Short additional notes if needed
+        ```
+ctx: 16384
+modelpack:
+    default: qwen30b-tools
+    recommended:
+        - qwen4b-tools
+        - qwen8b-tools
+        - qwen14b-tools
+        - qwen32b-tools
+inferParams:
+    min_p: 0
+    top_k: 20
+    top_p: 0.95
+    temperature: 0.2
+    max_tokens: 8192
+toolsList:
+    - doc-shell-cmd
+    - dump-manpage
+    - check-shellcmd

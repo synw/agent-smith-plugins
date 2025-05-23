@@ -1,0 +1,4 @@
+title: "Analyze a git diff"
+steps:
+  - action: git_diff
+  - task: analyze_diff

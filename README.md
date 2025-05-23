@@ -1,2 +1,3 @@
 # agent-smith-plugins
-Plugins for Agent Smith terminal client
+
+Plugins for the [Agent Smith](https://github.com/synw/agent-smith) terminal client

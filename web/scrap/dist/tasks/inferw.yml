@@ -1,0 +1,20 @@
+description: Run a raw inference query with web tools
+prompt: |-
+    {prompt}
+ctx: 16384
+modelpack:
+    default: qwen30b-tools
+    recommended:
+        - qwen4b-tools
+        - qwen8b-tools
+        - qwen14b-tools
+        - qwen32b-tools
+inferParams:
+  top_p: 1
+  top_k: 0
+  min_p: 0.05
+  temperature: 0.5
+  max_tokens: 8192
+toolsList:
+  - scrappage
+  - ddsearch

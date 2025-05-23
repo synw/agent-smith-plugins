@@ -1,0 +1,9 @@
+tool:
+  description: Get documentation from an `man` page for a given shell command
+  arguments:
+    command:
+        description: "The command name. Example: `find` or `chmod`"
+cmd: man
+args:
+  - "-P"
+  - "cat"

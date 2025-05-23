@@ -1,0 +1,29 @@
+name: shellcmd
+description: Write a shell command
+prompt: >+
+    I would like to achieve this: {prompt}.
+
+    Evaluate the complexity of the task (integer from 1 to 10) and decide if a a simple one line command is ok or if 
+    a multiline script is better to fullfill the request. The command must be clear and simple, 
+    otherwise prefer a bash script for more clarity.
+
+    Important: output in this format: {"method": "litteral 'command' or 'script'", "complexity": number}
+template: 
+    system:  |-
+        You are an AI programmer specialized in bash shell.
+ctx: 16384
+modelpack:
+    default: qwen30b
+inferParams:
+    temperature: 0
+    max_tokens: 8192
+shots:
+    - user: print the path of the current/working directory
+      assistant: |-
+        {"method": "command", "complexity": 1}
+    - user: calculate the factorial of a given number
+      assistant: |-
+        {"method": "script", "complexity": 2}
+    - user: find and list all empty files in a directory, then rename them with an "empty_" prefix
+      assistant: |-
+        {"method": "script", "complexity": 6}

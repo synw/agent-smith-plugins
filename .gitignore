@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+*.local
+yarn.lock
+yarn-error.log
+.yarnrc
+.vscode
+package-lock.json
+coverage
+server.config.yml
+.aider*
