@@ -1,14 +1,16 @@
 import { writeFileSync } from "fs";
+import { Command } from "commander";
 import select from '@inquirer/select';
-import { execute, executeWorkflowCmd, writeToClipboard, initAgent, initState, extractBetweenTags } from "@agent-smith/cli";
-/*import {
+import {
     execute,
-    executeWorkflowCmd,
+    executeWorkflow,
     writeToClipboard,
     initAgent,
     initState,
     extractBetweenTags,
-} from "../../../../../cli/dist/main.js";*/
+    taskOptions,
+    parseCommandArgs,
+} from "@agent-smith/cli";
 
 const choices = [
     {
@@ -38,51 +40,30 @@ const choices = [
     },
 ];
 
-async function runCmd(_args = [], options) {
+async function runCmd(args, options) {
     await initState();
     const isUp = await initAgent();
     if (!isUp) {
         throw new Error("No inference server found, canceling")
     }
-    let wf = "git_commit";
-    /*const { conf, vars, args } = parseArgs(_args);
-    const gitArgs = [];
-    const vkeys = Object.keys(vars);
-    if (vkeys.includes("msg")) {
-        gitArgs.msg = vars.msg;
-        delete vars.msg
+    let taskName = "git_commit";
+    if (options?.pkg) {
+        taskName = "git_commit_pkg";
+        //options.vars = ["pkg", options.pkg]
+    } else if (options?.message) {
+        //options.vars = ["message", options.message]
+        taskName = "git_commit_details";
     }
-    if (vkeys.includes("pkg")) {
-        gitArgs.pkg = vars.pkg;
-        delete vars.pkg
-    }*/
-    const nargs = [];
-    let gitArgs = [];
-    for (const arg of _args) {
-        if (arg.startsWith("msg=")) {
-            wf = "git_commit_details";
-            nargs.push(arg)
-        } else if (arg.startsWith("pkg=")) {
-            wf = "git_commit_pkg";
-            nargs.push(arg)
-        } else if (arg.includes("=")) {
-            nargs.push(arg)
-        } else {
-            gitArgs.push(arg)
-        }
-    }
-    //const { inferenceVars } = parseInferenceArgs(nargs);
-    //console.log("NARGS", nargs);
-    //console.log("GIT ARGS", gitArgs);
     console.log("Generating a commit message ...");
-    const res = await executeWorkflowCmd(wf, [...nargs, ...gitArgs], options);
+    //console.log("T", taskName);
+    //console.log("ARGS", args);
+    //console.log("OPTS", options)
+    const res = await executeWorkflow(taskName, args, options);
     //console.log("RES", res);
     if ("error" in res) {
         console.log(res);
-        throw new Error(`workflow ${wf} execution error: ${res.error}`)
+        throw new Error(`workflow ${taskName} execution error: ${res.error}`)
     }
-    //console.log("JOB RES", res);
-    //const final = res.answer.text.replace("```", "").trim();
     let resp = res.answer.text;
     if (res.template.tags?.think) {
         const sresp = res.answer.text.split(res.template.tags.think.end);
@@ -99,8 +80,8 @@ async function runCmd(_args = [], options) {
     });
     //console.log(answer);
     let flagPath = ["-a"];
-    if (gitArgs.length > 0) {
-        flagPath = gitArgs;
+    if (args.length > 0) {
+        flagPath = args;
     }
     switch (answer) {
         case "copy":
@@ -127,9 +108,16 @@ async function runCmd(_args = [], options) {
             break;
     }
 }
-const cmd = {
-    cmd: runCmd,
-    description: "Create a git commit message from a git diff",
-};
+
+const cmd = new Command("commit")
+    .argument("[args...]")
+    .description("Create a git commit message from a git diff")
+    .option("--pkg <name>", "commit for a given package")
+    .option("-l, --message <message>", "provide a first line message for the commit")
+    .action((..._args) => {
+        const { args, options } = parseCommandArgs(_args)
+        runCmd(args, options)
+    });
+taskOptions.forEach(o => cmd.addOption(o))
 
 export { cmd };
