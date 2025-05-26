@@ -1,4 +1,4 @@
-# agent-smith-plugins
+# Agent Smith plugins
 
 Plugins for the [Agent Smith](https://github.com/synw/agent-smith) terminal client
 
