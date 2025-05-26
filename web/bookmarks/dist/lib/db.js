@@ -1,5 +1,5 @@
-import { useSmem } from "../../../../../smem/dist/main.js";
-import { pluginDataDir } from "../../../../../../packages/cli/dist/main.js";
+import { useSmem } from "@agent-smith/smem";
+//import { pluginDataDir } from "@agent-smith/cli";
 let mem;
 let node;
 let isReady = false;

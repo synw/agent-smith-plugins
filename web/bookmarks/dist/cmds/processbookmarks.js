@@ -1,4 +1,5 @@
-import { executeActionCmd, executeTaskCmd, initAgent, initState, usePerfTimer } from "../../../../../cli/dist/main.js";
+import { executeActionCmd, executeTaskCmd, initAgent, initState } from "@agent-smith/cli";
+import { Command } from "commander";
 import { step1SelectData } from "../lib/steps/step1.js";
 import { bookmarkExists, countBookmarks, initDb, insertBookmark, readBookmarks } from "../lib/db.js";
 function parseInferenceArgs(args) {
@@ -100,8 +101,13 @@ async function runCmd(args = new Array, opts) {
     await executeActionCmd(["writetofile", JSON.stringify(final, null, "  "), p]);
     return "";
 }
-const cmd = {
-    cmd: runCmd,
-    description: "Process a bookmarks file",
-};
+
+const cmd = new Command("processbookmarks")
+    .description("Process a bookmarks file")
+    .action((...args) => {
+        args.pop();
+        const options = args.pop()
+        runCmd(args, options)
+    })
+
 export { cmd };

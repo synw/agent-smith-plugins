@@ -24,8 +24,8 @@ async def main():
         delay_before_return_html=1,
         # wait_for="js:() => window.loaded === true",
     )
-    # print("URL", sys.argv[1])
-    # print("ARGS", sys.argv[2:])
+    #print("SCRAP ARGS",sys.argv )
+    url = sys.argv[1]
     for arg in sys.argv[2:]:
         if "=" in arg:
             l = arg.split("=")
@@ -47,9 +47,12 @@ async def main():
             run_config[k] = v
     run_config = CrawlerRunConfig(**run_config)
     browser_config = BrowserConfig()
+    #print("URL", url)
+    #print("CONF", run_config)
+    #return
 
     async with AsyncWebCrawler(config=browser_config) as crawler:
-        result = await crawler.arun(url=sys.argv[1], config=run_config)
+        result = await crawler.arun(url=url, config=run_config)
         md = result.markdown.split("\n")[2:]
         print("\n".join(md))
 
