@@ -1,8 +1,5 @@
-import { parseArgs } from "@agent-smith/cli";
-
-async function action(_args) {
-    const { conf, vars, args } = parseArgs(_args);
-    const res = { prompt: args.join(" "), ...vars, ...conf };
+async function action(params, options) {
+    const res = { prompt: params.args.join(" ") };
     return res;
 }
 

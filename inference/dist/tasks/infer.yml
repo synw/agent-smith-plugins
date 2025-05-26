@@ -4,10 +4,11 @@ prompt: |-
     {prompt}
 ctx: 16384
 modelpack:  
-  default: nemotron4b
+  default: qwen4b
   recommended:
     - granite2b
     - qwen3b
+    - nemotron4b
     - gemma4b
     - llama8b
     - nemo
