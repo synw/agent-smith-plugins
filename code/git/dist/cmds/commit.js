@@ -8,7 +8,7 @@ import {
     initAgent,
     initState,
     extractBetweenTags,
-    taskOptions,
+    allOptions,
     parseCommandArgs,
 } from "@agent-smith/cli";
 
@@ -118,6 +118,6 @@ const cmd = new Command("commit")
         const { args, options } = parseCommandArgs(_args)
         runCmd(args, options)
     });
-taskOptions.forEach(o => cmd.addOption(o))
+allOptions.forEach(o => cmd.addOption(o))
 
 export { cmd };
