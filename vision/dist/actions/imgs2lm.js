@@ -15,54 +15,40 @@ async function getImageBuffer(imagePath) {
 
 async function action(args, conf) {
     //console.log("ARGS", args);
-    //console.log("CONF", conf);
-    if (args.length < 1) {
-        throw new Error("Provide an image path")
+    //console.log("CONF", _conf);
+    if (args.length < 2) {
+        throw new Error("Provide an image path and a prompt")
     }
-    //console.log("ARGS", args)
     let prompt = "";
     const imgData = [];
     let i = 0;
     let imgs = [];
-    let nextArgs = {};
-    const lastArgIndex = args.length - 1;
-    for (const arg of args) {
+    const lastArgIndex = args.args.length - 1;
+    for (const arg of args.args) {
         //console.log(i, "/", lastArgIndex, arg);
         if (i == lastArgIndex) {
             prompt = arg
         } else {
-            if (arg.includes("=")) {
-                const as = arg.split("=");
-                let name = as[0];
-                if (name=="s") {
-                    name = "size"
-                } else if (name=="m") {
-                    name ="model"
-                } else if (name=="ip") {
-                    name ="inferenceParams"
-                }
-                nextArgs[name] = as[1]                
-            } else {
-                let txt;
-                try {
-                    let data = await getImageBuffer(arg);
-                    txt = await convertImageDataToBase64(data);
-                    imgData.push(txt);
-                } catch (e) {
-                    throw new Error(`image conversion: ${e}`)
-                }
-                imgs.push(`[img-${i}]`);
+            let txt;
+            try {
+                let data = await getImageBuffer(arg);
+                txt = await convertImageDataToBase64(data);
+                imgData.push(txt);
+            } catch (e) {
+                throw new Error(`image conversion: ${e}`)
             }
+            imgs.push(`[img-${i}]`);
         }
         ++i
     }
+    //console.log("IMGS", imgs)
     if (!prompt) {
         throw new Error('Please provide a prompt as the last argument: "my prompt"')
     }
     const im = imgs.join(" ");
-    const pr = im + "\n" + prompt;
+    const pr = im + " " + prompt;
     //console.log("NA", nextArgs);
-    return { images: imgData, prompt: pr, ...nextArgs }
+    return { inferParams: { images: imgData }, prompt: pr }
 }
 
 export { action }

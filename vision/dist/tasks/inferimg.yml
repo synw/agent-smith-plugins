@@ -1,36 +1,28 @@
-name: vision
 description: Run an inference query with a vision model
+ctx: 32768
 prompt: |-
     {prompt}
-modelpack:
-    default: minicpm-v:8b-2.6-q8_0
-    recommended:
-        - granite3.2-vision:2b-q8_0
-        - 
 model:
     name: minicpm-v:8b-2.6-q8_0
-    ctx: 32768
     template: chatml
 models:
     granite2b:
         name: granite3.2-vision:2b-q8_0
-        ctx: 32768
         template: phi3
+    qwen3vl:
+        name: qwen2.5vl:3b-q8_0
+        template: chatml
     llama11b:
         name: llama3.2-vision:latest
-        ctx: 32768
         template: llama3
     gemma12b:
         name: gemma3:12b
-        ctx: 32768
         template: gemma
     gemma27b:
         name: gemma3:27b
-        ctx: 32768
         template: gemma
     mistral24b:
         name: mistral-small3.1:24b
-        ctx: 32768
         template: mistral-system
 inferParams:
     top_k: 0
