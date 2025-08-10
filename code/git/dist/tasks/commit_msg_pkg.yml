@@ -37,7 +37,7 @@ template:
         </commit>
 ctx: 8192
 modelpack:
-    default: qwen30b
+    default: hf.co/unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:UD-Q4_K_XL
     recommended:
         - qwen4b
         - qwen8b

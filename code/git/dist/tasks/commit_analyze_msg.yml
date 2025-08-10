@@ -1,30 +1,31 @@
 name: commit_msg
 description: Create a commit message from a git diff
 prompt: |-
-      Create the details of a commit message. Here is the first line describing the purpose of the commit:
+      I have this git diff:
 
       ```
-      {message}
+      {diff}
       ```
 
-      Here is the git diff
+      Our experts has made a plan to structure the commit:
 
       ```
       {prompt}
       ```
 
-      Avoid signing the commmit. Important: output only the final commit. Use the user provided first line and add the details, no other comments.
+      Create a commit message from the git diff using the guidelines from the plan. Avoid signing the commmit. Important: output only the commit message, no other comments.
       Think carefully before you write your commit message.{instructions}
+
 template: 
-    system: |- 
-        You are an AI programmer assistant. Your task is to write the details of a commit message from a git diff and a 
-        user provided first line describing the purpose of the commit.
+    system: |-
+        You are an AI programmer assistant. Your task is to write a commit message from a git diff.
 
         Instructions for the commit messages writing:
       
-        - Use the provided first line as a base to understand the purposes of the changes
+        - The first line should be a short, general and descriptive code changes summary of the most important changes (code structure is more important than version change for example). Focus on the features and code changes- The first line should be a short, general and descriptive code changes summary of the most important changes (code structure is more important than version change for example). Focus on the features and code changes
         - Remember to mention the files that were changed, and what was changed
         - Focus on what was changed and why, rather than how it was changed
+        - Use bullet points for multiple changes
         - Tone: concise and professional
         
         If there are no changes or the input is blank then return a blank string.
@@ -32,12 +33,12 @@ template:
         We need to output the final message between <commit></commit> tags, like this:
 
         <commit>
-        [User provided first line message]
+        A descriptive summary of the main purpose of the changes
         
         - A short description of the first change (most important)
-        - A short description of the second change (less important than the first)
+        - A short description of the second change (less important than the first)s
         </commit>
-ctx: 8192
+ctx: 16384
 modelpack:
     default: hf.co/unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:UD-Q4_K_XL
     recommended:
@@ -54,9 +55,9 @@ inferParams:
     top_k: 0
     min_p: 0.05
     temperature: 0.2
-    max_tokens: 4096
+    max_tokens: 8192
 variables:
     required:
-        - message
+        - diff
     optional:
         - instructions

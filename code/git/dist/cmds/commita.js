@@ -10,6 +10,9 @@ import {
     extractBetweenTags,
     allOptions,
     parseCommandArgs,
+    splitThinking,
+    executeTask,
+    executeAction,
 } from "@agent-smith/cli";
 
 const choices = [
@@ -42,34 +45,38 @@ const choices = [
 
 async function runCmd(args, options) {
     await initState();
-    const isUp = await initAgent([]);
+    const isUp = await initAgent();
     if (!isUp) {
         throw new Error("No inference server found, canceling")
     }
-    let taskName = "git_commit";
-    if (options?.pkg) {
+    //let taskName = "checkdiff";
+    /*if (options?.pkg) {
         taskName = "git_commit_pkg";
         //options.vars = ["pkg", options.pkg]
     } else if (options?.message) {
         //options.vars = ["message", options.message]
         taskName = "git_commit_details";
-    }
-    console.log("Generating a commit message ...");
+    }*/
+    console.log("Analyzing the git diff ...");
     //console.log("T", taskName);
     //console.log("ARGS", args);
     //console.log("OPTS", options)
-    const res = await executeWorkflow(taskName, args, options);
-    //console.log("RES", res);
-    if ("error" in res) {
-        console.log(res);
-        throw new Error(`workflow ${taskName} execution error: ${res.error}`)
-    }
-    let resp = res.answer.text;
-    if (res.template.tags?.think) {
-        const sresp = res.answer.text.split(res.template.tags.think.end);
-        resp = sresp.length == 1 ? sresp[0] : sresp[1];
-    }
-    const final = extractBetweenTags(resp, "<commit>", "</commit>");
+    // 1. get the diff
+    const rdiff = await executeAction("git_diff", ...args, {}, true);
+    const diff = rdiff.prompt;
+    // 2. analyze the diff
+    const ares = await executeTask("analyze_diff", {
+        "prompt": diff,
+    }, {})
+    const analysis = splitThinking(ares.answer.text, ares.template.tags.think.start, ares.template.tags.think.end);
+    // 3. write the commit
+    console.log("Creating a commit message ...");
+    const resp = await executeTask("commit_analyze_msg", {
+
+        "prompt": analysis,
+    }, { "diff": diff, })
+    // 4. user process the commit
+    const final = extractBetweenTags(resp.answer.text, "<commit>", "</commit>");
     console.log("\n--------------------------------------------------------");
     console.log(final);
     console.log("--------------------------------------------------------\n");
@@ -109,7 +116,7 @@ async function runCmd(args, options) {
     }
 }
 
-const cmd = new Command("commit")
+const cmd = new Command("commita")
     .argument("[args...]")
     .description("Create a git commit message from a git diff")
     .option("--pkg <name>", "commit for a given package")

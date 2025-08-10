@@ -18,7 +18,7 @@ template:
         Then provide a short summary table with numbers, titles and the affected files at the end.
 ctx: 16384
 modelpack:
-    default: qwen30b
+    default: hf.co/unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:UD-Q4_K_XL
     recommended:
       - qwen14b
       - qwen32b
