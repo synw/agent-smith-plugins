@@ -1,4 +1,4 @@
-name: commit_msg
+name: commit_analyze
 description: Create a commit message from a git diff
 prompt: |-
       I have this git diff:
@@ -39,17 +39,8 @@ template:
         - A short description of the second change (less important than the first)s
         </commit>
 ctx: 16384
-modelpack:
-    default: hf.co/unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:UD-Q4_K_XL
-    recommended:
-        - qwen4b
-        - qwen8b
-        - qwen14b
-        - qwen30b
-        - qwen32b
-        - qwencoder14bq8
-        - llama8b
-        - mistral-small
+model:
+    name: Qwen3-Coder-30B-A3B-Instruct-IQ4_XS
 inferParams:
     top_p: 1
     top_k: 0
@@ -58,6 +49,8 @@ inferParams:
     max_tokens: 8192
 variables:
     required:
-        - diff
+        diff:
+            description: The git diff
     optional:
-        - instructions
+        instructions:
+            description: Optional additional instructions

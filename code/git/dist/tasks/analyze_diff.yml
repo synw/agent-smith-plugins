@@ -1,3 +1,4 @@
+name:: analyze_diff
 description: Analyze a git diff
 prompt: |-
       Analyze this git diff and provide a suggestions on how to structure commits:
@@ -17,12 +18,8 @@ template:
         Then if there is more than one commit briefly explain your global grouping strategy and why it was choosen vs alternatives. 
         Then provide a short summary table with numbers, titles and the affected files at the end.
 ctx: 16384
-modelpack:
-    default: hf.co/unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:UD-Q4_K_XL
-    recommended:
-      - qwen14b
-      - qwen32b
-      - qwq
+model:
+    name: Qwen3-Coder-30B-A3B-Instruct-IQ4_XS
 inferParams:
     top_p: 0.95
     top_k: 20
@@ -31,4 +28,5 @@ inferParams:
     max_tokens: 8192
 variables:
     optional:
-        - instructions
+        instructions:
+            description: Optional additional instructions

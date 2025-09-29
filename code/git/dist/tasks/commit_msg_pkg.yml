@@ -1,4 +1,4 @@
-name: commit_msg
+name: commit_msg_pkg
 description: Create a commit message from a git diff
 prompt: |-
       Create a commit message from this git diff:
@@ -35,18 +35,9 @@ template:
         - A short description of the first change (most important change)
         - A short description of the second change (less important change than the first)
         </commit>
-ctx: 8192
-modelpack:
-    default: hf.co/unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF:UD-Q4_K_XL
-    recommended:
-        - qwen4b
-        - qwen8b
-        - qwen14b
-        - qwen30b
-        - qwen32b
-        - qwencoder14bq8
-        - llama8b
-        - mistral-small
+ctx: 16384
+model:
+    name: Qwen3-Coder-30B-A3B-Instruct-IQ4_XS
 inferParams:
     top_p: 1
     top_k: 0
@@ -55,6 +46,8 @@ inferParams:
     max_tokens: 4096
 variables:
     required:
-        - pkg
+        pkg:
+            description: The name of the package fot the commit
     optional:
-        - instructions
+        instructions:
+            description: Optional additional instructions

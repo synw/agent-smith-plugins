@@ -5,7 +5,6 @@ import {
     execute,
     executeWorkflow,
     writeToClipboard,
-    initAgent,
     initState,
     extractBetweenTags,
     allOptions,
@@ -42,10 +41,6 @@ const choices = [
 
 async function runCmd(args, options) {
     await initState();
-    const isUp = await initAgent([]);
-    if (!isUp) {
-        throw new Error("No inference server found, canceling")
-    }
     let taskName = "git_commit";
     if (options?.pkg) {
         taskName = "git_commit_pkg";
