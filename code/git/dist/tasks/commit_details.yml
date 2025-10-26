@@ -4,7 +4,7 @@ prompt: |-
       Create the details of a commit message. Here is the first line describing the purpose of the commit:
 
       ```
-      {message}
+      {msg}
       ```
 
       Here is the git diff
@@ -48,7 +48,7 @@ inferParams:
     max_tokens: 4096
 variables:
     required:
-        message:
+        msg:
             description: The first line of the commit message
     optional:
         instructions:

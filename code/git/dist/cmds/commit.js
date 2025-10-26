@@ -41,23 +41,25 @@ const choices = [
 
 async function runCmd(args, options) {
     await initState();
-    let taskName = "git_commit";
+    let workflowName = "git_commit";
     if (options?.pkg) {
-        taskName = "git_commit_pkg";
-        //options.vars = ["pkg", options.pkg]
-    } else if (options?.message) {
-        //options.vars = ["message", options.message]
-        taskName = "git_commit_details";
+        workflowName = "git_commit_pkg";
+    }
+    if (options?.msg) {
+        workflowName = "git_commit_details";
     }
     console.log("Generating a commit message ...");
-    //console.log("T", taskName);
+    //console.log("T", workflowName);
     //console.log("ARGS", args);
     //console.log("OPTS", options)
-    const res = await executeWorkflow(taskName, args, options);
+    if (options?.instructions) {
+        args["instructions"] = options.instructions;
+    }
+    const res = await executeWorkflow(workflowName, args, options);
     //console.log("RES", res);
     if ("error" in res) {
         console.log(res);
-        throw new Error(`workflow ${taskName} execution error: ${res.error}`)
+        throw new Error(`workflow ${workflowName} execution error: ${res.error}`)
     }
     let resp = res.answer.text;
     if (res.template.tags?.think) {
@@ -108,7 +110,8 @@ const cmd = new Command("commit")
     .argument("[args...]")
     .description("Create a git commit message from a git diff")
     .option("--pkg <name>", "commit for a given package")
-    .option("-l, --message <message>", "provide a first line message for the commit")
+    .option("--msg <name>", "the first line commit message")
+    .option("--instructions <prompt>", "additionl optional instructions")
     .action((..._args) => {
         const { args, options } = parseCommandArgs(_args)
         runCmd(args, options)
