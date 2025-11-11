@@ -39,7 +39,7 @@ template:
         </commit>
 ctx: 16384
 model:
-    name: Qwen3-Coder-30B-A3B-Instruct-IQ4_XS
+    name: qwencoder
 inferParams:
     top_p: 1
     top_k: 0

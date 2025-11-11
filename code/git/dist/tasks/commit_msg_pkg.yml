@@ -37,7 +37,7 @@ template:
         </commit>
 ctx: 16384
 model:
-    name: Qwen3-Coder-30B-A3B-Instruct-IQ4_XS
+    name: qwencoder
 inferParams:
     top_p: 1
     top_k: 0
@@ -47,7 +47,7 @@ inferParams:
 variables:
     required:
         pkg:
-            description: The name of the package fot the commit
+            description: The name of the package for the commit
     optional:
         instructions:
             description: Optional additional instructions

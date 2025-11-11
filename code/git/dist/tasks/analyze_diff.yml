@@ -19,7 +19,7 @@ template:
         Then provide a short summary table with numbers, titles and the affected files at the end.
 ctx: 16384
 model:
-    name: Qwen3-Coder-30B-A3B-Instruct-IQ4_XS
+    name: qwencoder
 inferParams:
     top_p: 0.95
     top_k: 20

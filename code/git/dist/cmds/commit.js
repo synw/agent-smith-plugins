@@ -1,15 +1,16 @@
 import { writeFileSync } from "fs";
 import { Command } from "commander";
 import select from '@inquirer/select';
-import {
-    execute,
-    executeWorkflow,
-    writeToClipboard,
-    initState,
-    extractBetweenTags,
-    allOptions,
-    parseCommandArgs,
-} from "@agent-smith/cli";
+import
+    {
+        execute,
+        executeWorkflow,
+        writeToClipboard,
+        initState,
+        extractBetweenTags,
+        allOptions,
+        parseCommandArgs,
+    } from "@agent-smith/cli";
 
 const choices = [
     {
@@ -39,7 +40,8 @@ const choices = [
     },
 ];
 
-async function runCmd(args, options) {
+async function runCmd(args, options)
+{
     await initState();
     let workflowName = "git_commit";
     if (options?.pkg) {
@@ -62,7 +64,7 @@ async function runCmd(args, options) {
         throw new Error(`workflow ${workflowName} execution error: ${res.error}`)
     }
     let resp = res.answer.text;
-    if (res.template.tags?.think) {
+    if (res.template?.tags?.think) {
         const sresp = res.answer.text.split(res.template.tags.think.end);
         resp = sresp.length == 1 ? sresp[0] : sresp[1];
     }
@@ -112,7 +114,8 @@ const cmd = new Command("commit")
     .option("--pkg <name>", "commit for a given package")
     .option("--msg <name>", "the first line commit message")
     .option("--instructions <prompt>", "additionl optional instructions")
-    .action((..._args) => {
+    .action((..._args) =>
+    {
         const { args, options } = parseCommandArgs(_args)
         runCmd(args, options)
     });
