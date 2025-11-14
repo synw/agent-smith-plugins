@@ -3,24 +3,12 @@ description: Run a raw inference query
 prompt: |-
     {prompt}
 ctx: 16384
-modelpack:  
-  default: qwen4b
-  recommended:
-    - granite2b
-    - qwen3b
-    - nemotron4b
-    - gemma4b
-    - llama8b
-    - nemo
-    - qwen14b
-    - mistral-small
-    - gemma27b
-    - qwen32b
-    - qwen72b
-    - mistral-large
+model:
+  name: qwen4b
+  template: chatml
 inferParams:
-  top_p: 1
-  top_k: 0
-  min_p: 0.05
-  temperature: 0.5
+  top_p: 0.8
+  top_k: 20
+  min_p: 0
+  temperature: 0.6
   max_tokens: 8192

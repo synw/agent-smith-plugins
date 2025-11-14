@@ -1,5 +1,5 @@
 async function action(params, options) {
-    const res = { prompt: params.args.join(" ") };
+    const res = { prompt: params.join(" ") };
     return res;
 }
 
