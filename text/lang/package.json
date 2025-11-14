@@ -1,19 +1,19 @@
 {
   "name": "@agent-smith/feat-lang",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Language processing features for Agent Smith cli",
   "repository": "https://github.com/synw/agent-smith",
   "dependencies": {
-    "@agent-smith/cli": "^0.0.70",
+    "@agent-smith/cli": "^0.0.83",
     "@agent-smith/jobs": "^0.0.14"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^14.0.0",
-    "@locallm/types": "^0.1.9",
-    "@types/node": "^24.1.0",
+    "@locallm/types": "^0.4.2",
+    "@types/node": "^24.10.1",
     "ts-node": "^10.9.2",
     "tslib": "2.8.1",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   },
   "type": "module",
   "files": [
