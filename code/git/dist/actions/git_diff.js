@@ -1,16 +1,10 @@
 import { execute } from "@agent-smith/cli";
 
-async function action(args) {
-    const gitParams = [];
-    for (const arg of args) {
-        if (!arg.includes("=")) {
-            gitParams.push(arg)
-        }
-    }
-    //console.log("************ git diff", ...gitParams)
-    const diff = await execute("git", ["diff", ...gitParams]);
+async function action(args)
+{
+    const diff = await execute("git", ["diff", ...args]);
     let msg = diff;
-    const stagedDiff = await execute("git", ["diff", "--staged", ...gitParams]);
+    const stagedDiff = await execute("git", ["diff", "--staged", ...args]);
     if (stagedDiff.length > 0) {
         msg += "\n" + stagedDiff
     }

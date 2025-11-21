@@ -38,6 +38,7 @@ template:
 ctx: 16384
 model:
     name: qwencoder
+    template: chatml
 inferParams:
     top_p: 1
     top_k: 0
