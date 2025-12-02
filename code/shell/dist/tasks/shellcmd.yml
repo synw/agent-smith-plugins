@@ -10,7 +10,7 @@ template:
         - Important: you always use the "check-shellcmd" tool to evaluate the command security and correctness.
         - In your final answer always output only the command and the evaluation.
 
-        Always use the "check-shellcmd" tool to get an evaluation before answering. Then answer with this format:
+        Use the "check-shellcmd" tool to get an evaluation then provide your answer with this format:
 
         ```
         <command>command here</command>
@@ -23,20 +23,15 @@ template:
 
         Short additional notes if needed
         ```
-ctx: 16384
-modelpack:
-    default: qwen30b-tools
-    recommended:
-        - qwen4b-tools
-        - qwen8b-tools
-        - qwen14b-tools
-        - qwen32b-tools
+ctx: 8192
+model:
+    name: qwen4b
 inferParams:
     min_p: 0
     top_k: 20
     top_p: 0.95
-    temperature: 0.2
-    max_tokens: 8192
+    temperature: 0.4
+    max_tokens: 7000
 toolsList:
     - doc-shell-cmd
     - dump-manpage

@@ -11,8 +11,9 @@ template:
         - Important: you always use the "check-shellcmd" tool to evaluate the script security and correctness.
         - In your final answer always output only the script and a short summary of the evaluation.
 ctx: 32768
-modelpack:
-    default: qwen30b-tools
+model:
+    name: qwen30b
+    temperature: chatml-tools
 inferParams:
     temperature: 0
     max_tokens: 16384

@@ -12,8 +12,9 @@ template:
     system:  |-
         You are an AI programmer specialized in bash shell.
 ctx: 16384
-modelpack:
-    default: qwen30b
+model:
+    name: qwen30b
+    temperature: chatml
 inferParams:
     temperature: 0
     max_tokens: 8192
