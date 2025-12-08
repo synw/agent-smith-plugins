@@ -30,7 +30,7 @@ template:
         A descriptive summary of the main purpose of the changes
         
         - A short description of the first change (most important)
-        - A short description of the second change (less important than the first)s
+        - A short description of the second change (less important than the first)
         </commit>
 ctx: 16384
 model:
