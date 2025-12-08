@@ -2,7 +2,8 @@ import { convertImageDataToBase64 } from "@locallm/api";
 import { readFile } from 'fs/promises';
 
 // Function to read the image file and return a Buffer
-async function getImageBuffer(imagePath) {
+async function getImageBuffer(imagePath)
+{
     try {
         // Read the file asynchronously and get a Buffer
         const buffer = await readFile(imagePath);
@@ -13,9 +14,10 @@ async function getImageBuffer(imagePath) {
     }
 }
 
-async function action(args, conf) {
+async function action(args, options)
+{
     //console.log("ARGS", args);
-    //console.log("CONF", _conf);
+    //console.log("CONF", options);
     if (args.length < 2) {
         throw new Error("Provide an image path and a prompt")
     }
@@ -23,8 +25,8 @@ async function action(args, conf) {
     const imgData = [];
     let i = 0;
     let imgs = [];
-    const lastArgIndex = args.args.length - 1;
-    for (const arg of args.args) {
+    const lastArgIndex = args.length - 1;
+    for (const arg of args) {
         //console.log(i, "/", lastArgIndex, arg);
         if (i == lastArgIndex) {
             prompt = arg
@@ -47,7 +49,7 @@ async function action(args, conf) {
     }
     const im = imgs.join(" ");
     const pr = im + " " + prompt;
-    //console.log("NA", nextArgs);
+    //console.log("IMG", imgData);
     return { inferParams: { images: imgData }, prompt: pr }
 }
 
