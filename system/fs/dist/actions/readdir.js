@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-async function readDirectory(dirPath) {
+async function readDirectory(dirPath, options)
+{
+  console.log(dirPath);
   const result = {};
   try {
     const files = await fs.promises.readdir(dirPath, { withFileTypes: true });
@@ -18,7 +20,8 @@ async function readDirectory(dirPath) {
   return result;
 }
 
-async function action(args) {
+async function action(args)
+{
   const res = {};
   const nextArgs = {};
   for (const arg of args) {

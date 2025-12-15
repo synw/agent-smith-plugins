@@ -1,18 +1,23 @@
-import { execute } from "@agent-smith/cli";
+import fs from 'fs/promises';
 
-async function action(args) {
-    const nextArgs = {};
-    const currentArgs = [];
-    for (const arg of args) {
-        if (arg.includes("=")) {
-            const sp = arg.split("=");
-            nextArgs[sp[0]] = sp[1];
-        } else {
-            currentArgs.push(arg)
+async function action(args, options)
+{
+    let fp = "";
+    if (Array.isArray(args)) {
+        fp = args[0]
+    } else {
+        if (!typeof args == "string") {
+            throw new Error("readfile action: input an array or string as parameter")
         }
+        fp = args;
     }
-    const data = await execute("cat", currentArgs);
-    return { prompt: data, ...nextArgs }
+    //console.log("RF FP", fp);
+    try {
+        const content = await fs.readFile(fp, 'utf8');
+        return content;
+    } catch (error) {
+        throw new Error(`Failed to read file: ${error.message}`);
+    }
 }
 
 export { action }
