@@ -1,5 +1,6 @@
 import { convertImageDataToBase64 } from "@locallm/api";
 import { readFile } from 'fs/promises';
+import terminalImage from 'terminal-image';
 
 // Function to read the image file and return a Buffer
 async function getImageBuffer(imagePath)
@@ -16,23 +17,24 @@ async function getImageBuffer(imagePath)
 
 async function action(args, options)
 {
-    //console.log("ARGS", args);
-    //console.log("CONF", options);
-    if (args.length < 2) {
-        throw new Error("Provide an image path and a prompt")
+    const isVerbose = options?.debug || options?.verbose;
+    if (args.length < 1) {
+        throw new Error("Provide an image path")
     }
-    let prompt = "";
+    let prompt = " ";
     const imgData = [];
     let i = 0;
     let imgs = [];
     const lastArgIndex = args.length - 1;
     for (const arg of args) {
-        //console.log(i, "/", lastArgIndex, arg);
         if (i == lastArgIndex) {
             prompt = arg
         } else {
             let txt;
             try {
+                if (isVerbose) {
+                    console.log(await terminalImage.file(arg));
+                }
                 let data = await getImageBuffer(arg);
                 txt = await convertImageDataToBase64(data);
                 imgData.push(txt);
@@ -43,13 +45,8 @@ async function action(args, options)
         }
         ++i
     }
-    //console.log("IMGS", imgs)
-    if (!prompt) {
-        throw new Error('Please provide a prompt as the last argument: "my prompt"')
-    }
     const im = imgs.join(" ");
     const pr = im + " " + prompt;
-    //console.log("IMG", imgData);
     return { inferParams: { images: imgData }, prompt: pr }
 }
 
