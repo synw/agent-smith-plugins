@@ -3,11 +3,10 @@ ctx: 32768
 prompt: |-
     {prompt}
 model:
-    name: qwen4b-vl-t
+    name: qwen4b-vl
     template: chatml
 inferParams:
     top_k: 40
     top_p: 0.95
     min_p: 0
     temperature: 0.2
-    max_tokens: 16384
