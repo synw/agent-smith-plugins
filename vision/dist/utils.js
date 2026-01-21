@@ -18,13 +18,12 @@ async function getImageBuffer (imagePath)
 async function img2base64 (img, isVerbose)
 {
     if (isVerbose) {
-        console.log(await terminalImage.file(img));
+        console.log(await terminalImage.file(img, { width: '50%', height: '50%' }));
     }
     let ip = img;
     if (!path.isAbsolute(img)) {
         ip = path.join(process.cwd(), img);
     }
-    console.log("Reading", ip, "image");
     let data = await getImageBuffer(ip);
     const txt = await convertImageDataToBase64(data);
     return txt;
