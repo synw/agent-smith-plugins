@@ -1,29 +1,22 @@
 {
   "name": "@agent-smith/feat-fs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Filesystem features for Agent Smith cli",
   "repository": "https://github.com/synw/agent-smith",
   "scripts": {
     "build": "tsc"
   },
-  "dependencies": {
-    "@agent-smith/cli": "^0.0.95",
-    "minimatch": "^10.1.1",
-    "parse-gitignore": "^2.0.0"
-  },
-  "devDependencies": {
-    "@commander-js/extra-typings": "^14.0.0",
-    "@locallm/types": "^0.6.4",
-    "@types/node": "^25.0.2",
-    "ts-node": "^10.9.2",
-    "tslib": "2.8.1",
-    "typescript": "^5.9.3"
-  },
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js"
+    }
+  },
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
