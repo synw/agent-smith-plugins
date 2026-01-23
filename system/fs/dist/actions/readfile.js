@@ -1,23 +1,37 @@
+/*
+# tool
+name: readfile
+description: Read a file's content
+arguments:
+    path:
+        description: The path of the file to read
+        required: true
+*/
 import fs from 'fs/promises';
 
-async function action(args, options)
+async function readFile (fp)
 {
-    let fp = "";
-    if (Array.isArray(args)) {
-        fp = args[0]
-    } else {
-        if (!typeof args == "string") {
-            throw new Error("readfile action: input an array or string as parameter")
-        }
-        fp = args;
-    }
-    //console.log("RF FP", fp);
     try {
-        const content = await fs.readFile(fp, 'utf8');
+        const content = await fs.readFile(fp, { encoding: 'utf8' });
         return content;
     } catch (error) {
         throw new Error(`Failed to read file: ${error.message}`);
     }
 }
 
-export { action }
+async function action (args, options)
+{
+    let fp = "";
+    if (Array.isArray(args)) {
+        fp = args[0];
+    } else {
+        if (!typeof args == "string") {
+            throw new Error("readfile action: input an array or string as parameter");
+        }
+        fp = args;
+    }
+    //console.log("RF FP", fp);
+    return readFile(fp);
+}
+
+export { action, readFile };

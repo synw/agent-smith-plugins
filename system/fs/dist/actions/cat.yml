@@ -1,1 +1,6 @@
+tool:
+  description: Read a file
+  arguments:
+    command:
+        description: "The file path. Example: `./myfile` or `/home/me/somefile.txt`"
 cmd: cat

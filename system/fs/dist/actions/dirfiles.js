@@ -1,14 +1,25 @@
+/*
+# tool
+name: dirfiles
+description: "Read files in a directory: returns the content of all the files in a given directory, excluding hidden files"
+arguments:
+    dirPath:
+        description: The path of the directory to read
+        required: true
+*/
 import fs from 'fs';
 import path from 'path';
 
-async function readDirectory(dirPath, options)
+async function readDirectory (dirPath, options)
 {
-  console.log(dirPath);
+  if (options?.debug || options?.verbose) {
+    console.log("Reading files in", dirPath);
+  }
   const result = {};
   try {
     const files = await fs.promises.readdir(dirPath, { withFileTypes: true });
     for (const file of files) {
-      if (file.isFile()) {
+      if (file.isFile() && !file.name.startsWith(".")) {
         const filePath = path.join(dirPath, file.name);
         const content = await fs.promises.readFile(filePath, 'utf8');
         result[file.name] = content;
@@ -20,21 +31,15 @@ async function readDirectory(dirPath, options)
   return result;
 }
 
-async function action(args)
+async function action (args)
 {
   const res = {};
-  const nextArgs = {};
   for (const arg of args) {
-    if (arg.includes("=")) {
-      const sp = arg.split("=");
-      nextArgs[sp[0]] = sp[1];
-      continue
-    }
     try {
       const data = await readDirectory(arg);
       res[arg] = data;
     } catch (err) {
-      return { ok: false, data: `Error reading directory: ${err}` }
+      return { ok: false, data: `Error reading directory: ${err}` };
     }
   }
   const files = [];
@@ -45,12 +50,12 @@ async function action(args)
     }
     for (const [filename, content] of Object.entries(data)) {
       let txt = `File: ${safeDirname}/${filename}`;
-      txt += "\n```\n" + content + "\n```"
-      files.push(txt)
+      txt += "\n```\n" + content + "\n```";
+      files.push(txt);
     }
   }
-  const final = files.join("\n\n")
-  return { prompt: final, ...nextArgs }
+  const final = files.join("\n\n");
+  return final;
 }
 
-export { action }
+export { action };
