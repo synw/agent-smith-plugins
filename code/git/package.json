@@ -1,12 +1,12 @@
 {
   "name": "@agent-smith/feat-git",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Git features for Agent Smith cli",
-  "repository": "https://github.com/synw/agent-smith",
+  "repository": "https://github.com/synw/agent-smith-plugins",
   "dependencies": {
-    "@agent-smith/cli": "^0.0.92",
-    "@inquirer/select": "^4.4.1",
-    "commander": "^14.0.2"
+    "@agent-smith/cli": "^0.0.109",
+    "@inquirer/select": "^5.0.4",
+    "commander": "^14.0.3"
   },
   "type": "module",
   "files": [

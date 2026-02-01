@@ -41,7 +41,7 @@ const choices = [
     },
 ];
 
-async function runCmd(args, options) {
+async function run(args, options) {
     await initState();
     //let taskName = "checkdiff";
     /*if (options?.pkg) {
@@ -61,14 +61,14 @@ async function runCmd(args, options) {
     // 2. analyze the diff
     const ares = await executeTask("analyze_diff", {
         "prompt": diff,
-    }, {})
+    }, {});
     const analysis = splitThinking(ares.answer.text, ares.template.tags.think.start, ares.template.tags.think.end);
     // 3. write the commit
     console.log("Creating a commit message ...");
     const resp = await executeTask("commit_analyze_msg", {
 
         "prompt": analysis,
-    }, { "diff": diff, })
+    }, { "diff": diff, });
     // 4. user process the commit
     const final = extractBetweenTags(resp.answer.text, "<commit>", "</commit>");
     console.log("\n--------------------------------------------------------");
@@ -86,7 +86,7 @@ async function runCmd(args, options) {
     }
     switch (answer) {
         case "copy":
-            writeToClipboard(final)
+            writeToClipboard(final);
             break;
         case "file":
             const tmpFile = process.cwd() + "/tmp.txt";
@@ -110,15 +110,15 @@ async function runCmd(args, options) {
     }
 }
 
-const cmd = new Command("commita")
-    .argument("[args...]")
-    .description("Create a git commit message from a git diff")
-    .option("--pkg <name>", "commit for a given package")
-    .option("-l, --message <message>", "provide a first line message for the commit")
-    .action((..._args) => {
-        const { args, options } = parseCommandArgs(_args)
-        runCmd(args, options)
-    });
-allOptions.forEach(o => cmd.addOption(o))
+const cmd = {
+    name: "commita [args...]",
+    description: "Commit 2",
+    options: [
+        "all",
+        ["--pkg <name>", "commit for a given package"],
+        ["-l, --message <message>", "provide a first line message for the commit"],
+    ],
+    run: run
+};
 
 export { cmd };

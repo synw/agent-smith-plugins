@@ -1,16 +1,15 @@
 import { writeFileSync } from "fs";
 import { Command } from "commander";
 import select from '@inquirer/select';
-import
-    {
-        execute,
-        executeWorkflow,
-        writeToClipboard,
-        initState,
-        extractBetweenTags,
-        allOptions,
-        parseCommandArgs,
-    } from "@agent-smith/cli";
+import {
+    execute,
+    executeWorkflow,
+    writeToClipboard,
+    initState,
+    extractBetweenTags,
+    allOptions,
+    parseCommandArgs,
+} from "@agent-smith/cli";
 
 const choices = [
     {
@@ -40,8 +39,7 @@ const choices = [
     },
 ];
 
-async function runCmd(args, options)
-{
+async function run(args, options) {
     await initState();
     let workflowName = "git_commit";
     if (options?.pkg) {
@@ -61,7 +59,7 @@ async function runCmd(args, options)
     //console.log("RES", res);
     if ("error" in res) {
         console.log(res);
-        throw new Error(`workflow ${workflowName} execution error: ${res.error}`)
+        throw new Error(`workflow ${workflowName} execution error: ${res.error}`);
     }
     let resp = res.answer.text;
     if (res.template?.tags?.think) {
@@ -84,7 +82,7 @@ async function runCmd(args, options)
     }
     switch (answer) {
         case "copy":
-            writeToClipboard(final)
+            writeToClipboard(final);
             break;
         case "file":
             const tmpFile = process.cwd() + "/tmp.txt";
@@ -108,17 +106,16 @@ async function runCmd(args, options)
     }
 }
 
-const cmd = new Command("commit")
-    .argument("[args...]")
-    .description("Create a git commit message from a git diff")
-    .option("--pkg <name>", "commit for a given package")
-    .option("--msg <name>", "the first line commit message")
-    .option("--instructions <prompt>", "additionl optional instructions")
-    .action((..._args) =>
-    {
-        const { args, options } = parseCommandArgs(_args)
-        runCmd(args, options)
-    });
-allOptions.forEach(o => cmd.addOption(o))
+const cmd = {
+    name: "commit [args...]",
+    description: "Commit cmd",
+    options: [
+        "all",
+        ["--pkg <name>", "commit for a given package"],
+        ["--msg <name>", "the first line commit message"],
+        ["--instructions <prompt>", "additionl optional instructions"]
+    ],
+    run: run
+};
 
 export { cmd };

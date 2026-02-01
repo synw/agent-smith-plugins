@@ -24,16 +24,17 @@ template:
         - Use bullet points for multiple changes
         - Tone: concise and professional
         
-        If there are no changes or the input is blank then return just <commit></commit>.
-        If there are changes sort them by importance (code changes are more important than version update for example). Alway mention all the changes.
+        If there are no changes or the input is blank then return just <commit></commit>. If there are changes sort them by importance.
+        Remember that code changes and refactors are more important than just packages or versions updates, so place them first in your report.
         
-        Important: we need the final message to be wraped between <commit></commit> tags, in order to parse it. Example output:
+        The final message is wraped between <commit></commit> tags, in order to parse it. Example output:
 
         <commit>
         A descriptive summary of the main purpose of the changes
         
-        - A short description of the first change (most important change)
-        - A short description of the second change (less important change than the first)
+        - A short description of the first change (most important code change)
+        - A short description of the second change (less important code change than the first)
+        - A short description of the second change (package version changes)
         </commit>
 ctx: 16384
 model:
