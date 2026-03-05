@@ -1,6 +1,7 @@
 tool:
   description: Read a file
   arguments:
-    command:
-        description: "The file path. Example: `./myfile` or `/home/me/somefile.txt`"
+    filepath:
+        description: "The file path. Example: `./somefile.md` or `/home/me/somefile.txt`"
+        required: true
 cmd: cat

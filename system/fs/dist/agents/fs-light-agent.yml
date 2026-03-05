@@ -1,0 +1,22 @@
+prompt: "{prompt}"
+ctx: 16384
+model:
+    name: qwen4b
+    template: chatml-tools
+template:
+    afterSystem: |-
+        
+        You are an AI filesystem assistant. You are equiped with tools to operate on the filesystem.
+inferParams:
+    top_k: 20
+    top_p: 0.7
+    min_p: 0
+    temperature: 0.2
+toolsList:
+    - lsdir # auto
+    - readfile # auto
+    - writetofile?
+variables:
+    optional:
+        authorized-paths:
+            description: The autorized paths

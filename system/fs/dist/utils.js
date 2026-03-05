@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import path from "path";
 
-async function lsdir (args, options)
-{
+async function lsdir(args, options) {
     let dirPath = "";
     if (Array.isArray(args)) {
         dirPath = args[0];
@@ -42,8 +41,7 @@ async function lsdir (args, options)
     return result;
 }
 
-function isPathDirectoryOrFile (filePath)
-{
+function isPathDirectoryOrFile(filePath) {
     try {
         const stats = fs.statSync(filePath);
         return stats.isDirectory();
@@ -52,8 +50,7 @@ function isPathDirectoryOrFile (filePath)
     }
 }
 
-export
-{
+export {
     isPathDirectoryOrFile,
     lsdir,
 };

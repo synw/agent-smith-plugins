@@ -10,8 +10,7 @@ arguments:
 import fs from 'fs';
 import path from 'path';
 
-async function readDirectory (dirPath, options)
-{
+async function readDirectory(dirPath, options) {
   if (options?.debug || options?.verbose) {
     console.log("Reading files in", dirPath);
   }
@@ -31,10 +30,16 @@ async function readDirectory (dirPath, options)
   return result;
 }
 
-async function action (args)
-{
+async function action(args) {
   const res = {};
-  for (const arg of args) {
+  let dirPaths = [];
+  //console.log("DIRF ARGS", typeof args, args);
+  if (Array.isArray(args)) {
+    dirPaths = args;
+  } else {
+    dirPaths = [args.dirPath];
+  }
+  for (const arg of dirPaths) {
     try {
       const data = await readDirectory(arg);
       res[arg] = data;

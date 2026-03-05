@@ -9,9 +9,23 @@ arguments:
 */
 import { lsdir } from "../utils.js";
 
-async function action (args, options)
-{
-    return await lsdir(args, options);
+async function action(args, options) {
+    let ok = false;
+    if ("authorized-paths" in options) {
+        const aps = options["authorized-paths"].split(",");
+        for (const ap of aps) {
+            if (args.dirPath.includes(ap)) {
+                ok = true;
+                break;
+            }
+        }
+    } else {
+        ok = true;
+    }
+    if (!ok) {
+        return "unauthorized path " + args.dirPath;
+    }
+    return await lsdir(args.dirPath, options);
 }
 
 export { action };

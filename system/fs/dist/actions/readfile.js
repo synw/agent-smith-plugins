@@ -9,8 +9,7 @@ arguments:
 */
 import fs from 'fs/promises';
 
-async function readFile (fp)
-{
+async function readFile(fp) {
     try {
         const content = await fs.readFile(fp, { encoding: 'utf8' });
         return content;
@@ -19,16 +18,16 @@ async function readFile (fp)
     }
 }
 
-async function action (args, options)
-{
+async function action(args, options) {
     let fp = "";
     if (Array.isArray(args)) {
         fp = args[0];
     } else {
-        if (!typeof args == "string") {
-            throw new Error("readfile action: input an array or string as parameter");
+        if (typeof args == "string") {
+            fp = args;
+        } else {
+            fp = args.path;
         }
-        fp = args;
     }
     //console.log("RF FP", fp);
     return readFile(fp);

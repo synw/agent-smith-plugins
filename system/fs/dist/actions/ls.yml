@@ -1,0 +1,9 @@
+tool:
+  description: List files in a directory
+  arguments:
+    directorypath:
+        description: The directory path
+        required: true
+cmd: ls
+args:
+  - "-l"
