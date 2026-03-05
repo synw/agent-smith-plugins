@@ -2,7 +2,7 @@ name: infer
 description: Run a raw inference query
 prompt: |-
     {prompt}
-ctx: 16384
+ctx: 32768
 model:
   name: qwen4b
   template: chatml
@@ -11,4 +11,3 @@ inferParams:
   top_k: 20
   min_p: 0
   temperature: 0.6
-  max_tokens: 8192
