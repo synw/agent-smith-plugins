@@ -9,17 +9,15 @@ prompt: |-
 
     Please translate it to {lang}. Return only the translation. {instructions}
 template: 
-    system: You are an AI translator assistant
-ctx: 16384
+    system: You are an AI translator assistant in {lang}
 model:
     name: gemma4b
     template: gemma
 inferParams:
-    max_tokens: 8192
-    top_k: 20
+    top_k: 40
     top_p: 0.95
-    min_p: 0
-    temperature: 0.2
+    min_p: 0.05
+    temperature: 0.3
 variables:
     optional:
         instructions:
