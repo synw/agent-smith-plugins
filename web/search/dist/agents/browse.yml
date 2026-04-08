@@ -1,0 +1,24 @@
+description: Playwright browse agent
+prompt: |-
+    {prompt}
+ctx: 32768
+model:
+    name: qwen4b
+    template: chatml-xmltools
+inferParams:
+    top_k: 20
+    top_p: 0.95
+    min_p: 0.05
+    temperature: 0.5
+mcp:
+    playwright:
+        command: npx
+        arguments:
+            - "-y"
+            - "@playwright/mcp@latest"
+            - "--isolated"
+            - "--headless"
+            - "--image-responses"
+            - "omit"
+            - "--output-mode"
+            - "stdout"

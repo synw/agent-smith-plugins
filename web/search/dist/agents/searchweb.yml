@@ -1,0 +1,29 @@
+tool:
+    description: Search the web for informations
+    arguments:
+        prompt: 
+            description: The search query
+description: Search tool
+prompt: |-
+    {prompt}
+ctx: 16384
+model:
+    name: qwen4b
+    template: chatml-xmltools
+template:
+  afterSystem: |-
+
+    You are in charge of providing accurate information to the user. Here is your search workflow:
+    
+    1. Use your search tool to gather urls and basic info. 
+    2. Open the pages urls provided by your search tool to get detailled information related to the user query.
+    3. Provide a detailled final answer using all the information gathered.
+inferParams:
+  top_k: 20
+  top_p: 0.8
+  min_p: 0.01
+  temperature: 0.4
+toolsList:
+  - smsearch
+  - open_webpage
+  - wikipedia
