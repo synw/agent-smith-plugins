@@ -1,0 +1,21 @@
+description: Shell agent
+category: system/shell
+prompt: |-
+    {prompt}
+template:
+    system: |-
+
+      You are operating on a Linux filesystem in a workspace directory located at /workspace. It contains the project: use this directory by default.
+ctx: 32768
+model: qwen4b
+inferParams:
+    min_p: 0
+    top_k: 40
+    top_p: 0.95
+    temperature: 0.7
+variables:
+  required:
+    workspace:
+      description: The local directory path where to operate
+toolsList:
+  - shell

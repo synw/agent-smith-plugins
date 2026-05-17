@@ -1,0 +1,24 @@
+name: shellcmd
+description: Write a shell command
+prompt: |-
+      Write a shell command to {prompt}
+template: 
+    system:  |-
+        You are an AI programmer assistant that writes shell commands. Important: you always output only the requested command
+        and never explain it.
+model: qwen4b
+inferParams:
+    top_p: 1
+    top_k: 0
+    min_p: 0.05
+    temperature: 0.15
+    max_tokens: 1024
+shots:
+    - user: |-
+        print the path of the current/working directory
+      assistant: |-
+        pwd
+    - user: |-
+        list the files in the current folder and order them by ascending size. Humanize the size display
+      assistant:
+        ls -lh --sort=size
