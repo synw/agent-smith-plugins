@@ -19,5 +19,5 @@ The final message is wrapped between <commit></commit> tags. If there are no cha
 - Packages bump and versions change (least important)
 </commit>
 
-You analyze the git diff and then prioritize the changes, classified by theme and importance.
-Remember that code changes and refactors are more important than packages or versions updates, so place them first in your report's details bullet points. that code changes and refactors are more important than packages or versions updates, so place them first in your report's details list. 
+You analyze the git diff, summarize and prioritize the changes, classify by theme and importance.
+Remember that code changes and refactors are more important than packages or versions updates, so place them first in your report's details bullet points. 
