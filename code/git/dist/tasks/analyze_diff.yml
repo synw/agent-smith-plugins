@@ -1,5 +1,6 @@
 name:: analyze_diff
 description: Analyze a git diff
+type: terminal
 prompt: |-
       Analyze this git diff and provide a suggestions on how to structure commits:
 
@@ -8,7 +9,7 @@ prompt: |-
       ```
       {instructions}
 template: 
-    afterSystem: |-
+    system: |-
         Your task is to analyze a git diff and provide insights on how to structure commits.
 
         Classify the commit changes by feature groups and check if we have better divide this into several commits or if one commit would be enough. 
@@ -17,15 +18,13 @@ template:
         Answer with a detailled markdown list of commits with number, relevant emoji if any, detailled title, changes, affected files and why. 
         Then if there is more than one commit briefly explain your global grouping strategy and why it was choosen vs alternatives. 
         Then provide a short summary table with numbers, titles and the affected files at the end.
-ctx: 16384
-model:
-    name: qwencoder
+model: qwencoder
 inferParams:
-    top_p: 0.95
-    top_k: 20
-    min_p: 0
-    temperature: 0.4
-    max_tokens: 8192
+    top_p: 1
+    top_k: 0
+    min_p: 0.01
+    temperature: 0.2
+    repeat_penalty: 1
 variables:
     optional:
         instructions:

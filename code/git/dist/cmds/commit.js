@@ -2,11 +2,11 @@ import { writeFileSync } from "fs";
 import { Command } from "commander";
 import select from '@inquirer/select';
 import {
-    execute,
     executeWorkflow,
-    writeToClipboard,
-    initState,
-    extractBetweenTags,
+    state,
+    utils,
+} from "@agent-smith/core";
+import {
     allOptions,
     parseCommandArgs,
 } from "@agent-smith/cli";
@@ -40,13 +40,18 @@ const choices = [
 ];
 
 async function run(args, options) {
-    await initState();
+    await state.init();
+    //console.log("COMMIT OPTS", options);
     let workflowName = "git_commit";
-    if (options?.pkg) {
-        workflowName = "git_commit_pkg";
-    }
-    if (options?.msg) {
-        workflowName = "git_commit_details";
+    if (options?.msg && options?.pkg) {
+        workflowName = "git_commit_pkg_details";
+    } else {
+        if (options?.pkg) {
+            workflowName = "git_commit_pkg";
+        }
+        if (options?.msg) {
+            workflowName = "git_commit_details";
+        }
     }
     console.log("Generating a commit message ...");
     //console.log("T", workflowName);
@@ -55,18 +60,19 @@ async function run(args, options) {
     if (options?.instructions) {
         args["instructions"] = options.instructions;
     }
+    options.onThinkingToken = (t, from) => process.stdout.write(t);
     const res = await executeWorkflow(workflowName, args, options);
     //console.log("RES", res);
     if ("error" in res) {
         console.log(res);
         throw new Error(`workflow ${workflowName} execution error: ${res.error}`);
     }
-    let resp = res.answer.text;
+    let resp = res.text;
     if (res.template?.tags?.think) {
-        const sresp = res.answer.text.split(res.template.tags.think.end);
+        const sresp = res.text.split(res.template.tags.think.end);
         resp = sresp.length == 1 ? sresp[0] : sresp[1];
     }
-    const final = extractBetweenTags(resp, "<commit>", "</commit>");
+    const final = utils.extractBetweenTags(resp, "<commit>", "</commit>");
     console.log("\n--------------------------------------------------------");
     console.log(final);
     console.log("--------------------------------------------------------\n");
@@ -92,12 +98,12 @@ async function run(args, options) {
             const lines = final.split("\n");
             const m = `${lines.join('\n')}`;
             console.log("git commit -m", m);
-            const res2 = await execute("git", ["commit", ...flagPath, "-m", m]);
+            const res2 = await utils.execute("git", ["commit", ...flagPath, "-m", m]);
             console.log(res2);
             break;
         case "line":
             const firstLine = final.split("\n")[0];
-            const res3 = await execute("git", ["commit", ...flagPath, "-m", firstLine]);
+            const res3 = await utils.execute("git", ["commit", ...flagPath, "-m", firstLine]);
             console.log(res3);
             break;
         default:

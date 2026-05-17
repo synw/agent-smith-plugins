@@ -1,25 +1,26 @@
-import { execute } from "@agent-smith/cli";
+import { utils } from "@agent-smith/core";
 
-async function action(args, options)
-{
-    const diff = await execute("git", ["diff", ...args]);
+async function action(args, options) {
+    //console.log("DIFF ARGS", args);
+    //console.log("DIFF OPTS", options);
+    const diff = await utils.execute("git", ["diff", ...args]);
     if (options.verbose || options.debug) {
         console.log("Executing", "git diff", args.join(" "));
     }
     let msg = diff;
-    const stagedDiff = await execute("git", ["diff", "--staged", ...args]);
+    const stagedDiff = await utils.execute("git", ["diff", "--staged", ...args]);
     if (options.verbose || options.debug) {
         console.log("Executing", "git diff --staged", args.join(" "));
     }
     if (stagedDiff.length > 0) {
-        msg += "\n" + stagedDiff
+        msg += "\n" + stagedDiff;
     }
     if (options.debug) {
-        console.log(msg)
+        console.log(msg);
     }
     const res = { prompt: msg };
     //console.log("GIT DIFF RES", res)
-    return res
+    return res;
 }
 
-export { action }
+export { action };

@@ -1,5 +1,6 @@
 name: commit_analyze
 description: Create a commit message from a git diff
+type: terminal
 prompt: |-
       I have this git diff:
 
@@ -38,15 +39,13 @@ template:
         - A short description of the first change (most important)
         - A short description of the second change (less important than the first)s
         </commit>
-ctx: 16384
-model:
-    name: qwencoder
+model: qwencoder
 inferParams:
     top_p: 1
     top_k: 0
-    min_p: 0.05
+    min_p: 0.01
     temperature: 0.2
-    max_tokens: 8192
+    repeat_penalty: 1
 variables:
     required:
         diff:

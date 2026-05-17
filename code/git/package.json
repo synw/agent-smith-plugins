@@ -4,7 +4,8 @@
   "description": "Git features for Agent Smith cli",
   "repository": "https://github.com/synw/agent-smith-plugins",
   "dependencies": {
-    "@agent-smith/cli": "^0.0.109",
+    "@agent-smith/cli": "file:../../../agent-smith/packages/cli",
+    "@agent-smith/core": "file:../../../agent-smith/packages/core",
     "@inquirer/select": "^5.0.4",
     "commander": "^14.0.3"
   },

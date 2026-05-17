@@ -2,15 +2,14 @@ import { writeFileSync } from "fs";
 import { Command } from "commander";
 import select from '@inquirer/select';
 import {
-    execute,
-    writeToClipboard,
-    initState,
-    extractBetweenTags,
-    allOptions,
-    parseCommandArgs,
-    splitThinking,
+    utils,
+    state,
     executeTask,
     executeAction,
+} from "@agent-smith/core";
+import {
+    allOptions,
+    parseCommandArgs,
 } from "@agent-smith/cli";
 
 const choices = [
@@ -42,7 +41,7 @@ const choices = [
 ];
 
 async function run(args, options) {
-    await initState();
+    await state.init();
     //let taskName = "checkdiff";
     /*if (options?.pkg) {
         taskName = "git_commit_pkg";
@@ -62,7 +61,7 @@ async function run(args, options) {
     const ares = await executeTask("analyze_diff", {
         "prompt": diff,
     }, {});
-    const analysis = splitThinking(ares.answer.text, ares.template.tags.think.start, ares.template.tags.think.end);
+    const analysis = utils.extractBetweenTags(ares.answer.text, ares.template.tags.think.start, ares.template.tags.think.end);
     // 3. write the commit
     console.log("Creating a commit message ...");
     const resp = await executeTask("commit_analyze_msg", {
@@ -70,7 +69,7 @@ async function run(args, options) {
         "prompt": analysis,
     }, { "diff": diff, });
     // 4. user process the commit
-    const final = extractBetweenTags(resp.answer.text, "<commit>", "</commit>");
+    const final = utils.extractBetweenTags(resp.answer.text, "<commit>", "</commit>");
     console.log("\n--------------------------------------------------------");
     console.log(final);
     console.log("--------------------------------------------------------\n");
@@ -86,7 +85,7 @@ async function run(args, options) {
     }
     switch (answer) {
         case "copy":
-            writeToClipboard(final);
+            utils.writeToClipboard(final);
             break;
         case "file":
             const tmpFile = process.cwd() + "/tmp.txt";
@@ -96,12 +95,12 @@ async function run(args, options) {
             const lines = final.split("\n");
             const m = `${lines.join('\n')}`;
             console.log("git commit -m", m);
-            const res2 = await execute("git", ["commit", ...flagPath, "-m", m]);
+            const res2 = await utils.execute("git", ["commit", ...flagPath, "-m", m]);
             console.log(res2);
             break;
         case "line":
             const firstLine = final.split("\n")[0];
-            const res3 = await execute("git", ["commit", ...flagPath, "-m", firstLine]);
+            const res3 = await utils.execute("git", ["commit", ...flagPath, "-m", firstLine]);
             console.log(res3);
             break;
         default:

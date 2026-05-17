@@ -1,5 +1,6 @@
 name: commit_details
 description: Create a commit message from a git diff
+type: terminal
 prompt: |-
       Create the details of a commit message. Here is the first line describing the purpose of the commit:
 
@@ -20,32 +21,14 @@ template:
         You are an AI programmer assistant. Your task is to write the details of a commit message from a git diff and a 
         user provided first line describing the purpose of the commit.
 
-        Instructions for the commit messages writing:
-      
-        - Use the provided first line as a base to understand the purposes of the changes
-        - Remember to mention the files that were changed, and what was changed
-        - Focus on what was changed and why, rather than how it was changed
-        - Tone: concise and professional
-        
-        If there are no changes or the input is blank then return a blank string.
-        If there are changes sort them by importance (code changes are more important than version update for example). Alway mention all the changes.
-        We need to output the final message between <commit></commit> tags, like this:
-
-        <commit>
-        [User provided first line message]
-        
-        - A short description of the first change (most important)
-        - A short description of the second change (less important than the first)
-        </commit>
-ctx: 16384
-model:
-    name: qwencoder
+        {file:../fragments/commit_msg_firstline.md}
+model: glmflash
 inferParams:
     top_p: 1
     top_k: 0
-    min_p: 0.05
+    min_p: 0.01
     temperature: 0.2
-    max_tokens: 4096
+    repeat_penalty: 1
 variables:
     required:
         msg:
