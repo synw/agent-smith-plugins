@@ -8,12 +8,13 @@ prompt: |-
       {prompt}
       ```
 
+      {file:../fragments/commit_msg.md}
+      
+      You analyze the git diff, summarize and prioritize the changes, classify by theme and importance.
       {instructions}
 template: 
     system: |-
         You are an AI programmer assistant. Your task is to write a commit message from a git diff.
-
-        {file:../fragments/commit_msg.md}
 model: glmflash
 inferParams:
     top_p: 1

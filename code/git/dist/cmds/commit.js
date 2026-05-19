@@ -61,6 +61,7 @@ async function run(args, options) {
         args["instructions"] = options.instructions;
     }
     options.onThinkingToken = (t, from) => process.stdout.write(t);
+    options.onToken = (t, from) => process.stdout.write(t);
     const res = await executeWorkflow(workflowName, args, options);
     //console.log("RES", res);
     if ("error" in res) {
@@ -68,10 +69,10 @@ async function run(args, options) {
         throw new Error(`workflow ${workflowName} execution error: ${res.error}`);
     }
     let resp = res.text;
-    if (res.template?.tags?.think) {
+    /*if (res.template?.tags?.think) {
         const sresp = res.text.split(res.template.tags.think.end);
         resp = sresp.length == 1 ? sresp[0] : sresp[1];
-    }
+    }*/
     const final = utils.extractBetweenTags(resp, "<commit>", "</commit>");
     console.log("\n--------------------------------------------------------");
     console.log(final);

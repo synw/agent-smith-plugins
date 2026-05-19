@@ -2,18 +2,19 @@ name: commit_msg_pkg
 description: Create a commit message from a git diff
 type: terminal
 prompt: |-
-      Create a commit message from this git diff for the {pkg} package:
+    Create a commit message from this git diff for the {pkg} package:
 
-      ```
-      {prompt}
-      ```
+    ```
+    {prompt}
+    ```
 
-      Mention the package name in the first line of the commit message: "{pkg}: the message here".{instructions}
+    {file:../fragments/commit_msg_pkg.md}
+
+    You analyze the git diff, summarize and prioritize the changes, classify by theme and importance.
+    {instructions}
 template: 
     system: |- 
-        You are an AI programmer assistant. Your task is to write a commit message from a git diff.
-        
-        {file:../fragments/commit_msg_pkg.md}
+        You are an AI programmer assistant. Your task is to write a commit message from a git diff.        
 model: glmflash
 inferParams:
     top_p: 1
