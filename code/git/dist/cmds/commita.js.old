@@ -4,7 +4,7 @@ import select from '@inquirer/select';
 import {
     utils,
     state,
-    executeTask,
+    executeAgent,
     executeAction,
 } from "@agent-smith/core";
 import {
@@ -58,13 +58,13 @@ async function run(args, options) {
     const rdiff = await executeAction("git_diff", ...args, {}, true);
     const diff = rdiff.prompt;
     // 2. analyze the diff
-    const ares = await executeTask("analyze_diff", {
+    const ares = await executeAgent("analyze_diff", {
         "prompt": diff,
     }, {});
     const analysis = utils.extractBetweenTags(ares.answer.text, ares.template.tags.think.start, ares.template.tags.think.end);
     // 3. write the commit
     console.log("Creating a commit message ...");
-    const resp = await executeTask("commit_analyze_msg", {
+    const resp = await executeAgent("commit_analyze_msg", {
 
         "prompt": analysis,
     }, { "diff": diff, });

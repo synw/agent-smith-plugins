@@ -69,10 +69,10 @@ async function run(args, options) {
         throw new Error(`workflow ${workflowName} execution error: ${res.error}`);
     }
     let resp = res.text;
-    /*if (res.template?.tags?.think) {
-        const sresp = res.text.split(res.template.tags.think.end);
-        resp = sresp.length == 1 ? sresp[0] : sresp[1];
-    }*/
+    if (resp.trim() == "<commit></commit>") {
+        console.log("No changes found");
+        return;
+    }
     const final = utils.extractBetweenTags(resp, "<commit>", "</commit>");
     console.log("\n--------------------------------------------------------");
     console.log(final);

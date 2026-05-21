@@ -15,8 +15,11 @@ async function action(args, options) {
     if (stagedDiff.length > 0) {
         msg += "\n" + stagedDiff;
     }
+    if (msg.trim().length == 0) {
+        msg = "No changes in git";
+    }
     if (options.debug) {
-        console.log(msg);
+        console.log("Git diff msg:", msg);
     }
     const res = { prompt: msg };
     //console.log("GIT DIFF RES", res)
