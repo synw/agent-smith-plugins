@@ -1,7 +1,7 @@
 /*
 # tool
 name: python
-description: Execute some Python code
+description: Execute some Python code using the `python` command
 arguments:
     packages:
         description: "A list of packages to be install (optional): example: requests,numpy"
